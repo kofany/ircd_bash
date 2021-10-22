@@ -54,6 +54,7 @@ echo -e "${timestamp}" >> ${conf_dir}/timestamp
 reload_ircd()
 {
 ircdpid=$(pgrep ircd)
+timestamp=$(date '+%d/%m/%Y_%H')
 #check if include line with target is in ircd.conf
 chk_include=$(cat ${conf_dir}/ircd.conf |grep ${target})
 [[ -z ${chk_include} ]] && { sed -i '1s/^/#include ircd-k-tor.conf\n/' ${conf_dir}/ircd.conf; }
@@ -61,7 +62,7 @@ chk_include=$(cat ${conf_dir}/ircd.conf |grep ${target})
 [[ -f "/home/ircd/chkoutput" ]] && rm -rf /home/ircd/chkoutput
 /home/ircd/irc/sbin/chkconf &> /home/ircd/chkoutput
 chk_error=$(cat /home/ircd/chkoutput |grep ERROR)
-[[ -z ${chk_error} ]] && kill -HUP ${ircdpid} || echo -e "Exiting Problem with ircd.conf file run chkconf manualy"
+[[ -z ${chk_error} ]] && { kill -HUP ${ircdpid}; echo -e "${timestamp} ircd HUP-ed" >> /home/ircd/log_hup; }|| echo -e "Exiting Problem with ircd.conf file run chkconf manualy"
 }
 chk_timestamp
 get_tor
