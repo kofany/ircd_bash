@@ -7,7 +7,8 @@
 #
 # Please create a epmty file /etc/inspircd/tor.sh
 # and do correct chmod 
-#
+# Best install this file in /usr/share/inspircd/ :)
+# 
 #wget check
 command -v wget >/dev/null 2>&1 || { echo >&2 "I require wget but it's not installed.  Aborting."; exit 1; }
 #our conf file dir
